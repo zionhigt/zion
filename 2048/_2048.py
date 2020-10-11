@@ -2,11 +2,11 @@
 
 # Form implementation generated from reading ui file '2048.ui'
 #
-# Created by: PyQt4 UI code generator 4.11.4
+# Created by: PyQt5 UI code generator 4.11.4
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt4 import QtCore, QtGui
+from PyQt5 import QtCore, QtWidgets, QtGui
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -15,28 +15,28 @@ except AttributeError:
         return s
 
 try:
-    _encoding = QtGui.QApplication.UnicodeUTF8
+    _encoding = QtWidgets.QApplication.UnicodeUTF8
     def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig, _encoding)
+        return QtWidgets.QApplication.translate(context, text, disambig, _encoding)
 except AttributeError:
     def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig)
+        return QtWidgets.QApplication.translate(context, text, disambig)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
         MainWindow.resize(600, 600)
-        self.centralwidget = QtGui.QWidget(MainWindow)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
-        self.background = QtGui.QWidget(self.centralwidget)
+        self.background = QtWidgets.QWidget(self.centralwidget)
         self.background.setGeometry(QtCore.QRect(0, -20, 600, 600))
         self.background.setStyleSheet(_fromUtf8("background-color:#ffffff;"))
         self.background.setObjectName(_fromUtf8("background"))
-        self.widget = QtGui.QWidget(self.background)
+        self.widget = QtWidgets.QWidget(self.background)
         self.widget.setGeometry(QtCore.QRect(75, 130, 450, 450))
         self.widget.setStyleSheet(_fromUtf8("background-color:#cacaca;"))
         self.widget.setObjectName(_fromUtf8("widget"))
-        self.case0x0 = QtGui.QLabel(self.widget)
+        self.case0x0 = QtWidgets.QLabel(self.widget)
         self.case0x0.setGeometry(QtCore.QRect(10, 10, 100, 100))
         font = QtGui.QFont()
         font.setPointSize(22)
@@ -49,7 +49,7 @@ class Ui_MainWindow(object):
         self.case0x0.setAlignment(QtCore.Qt.AlignCenter)
         self.case0x0.setWordWrap(False)
         self.case0x0.setObjectName(_fromUtf8("case0x0"))
-        self.case0x0_2 = QtGui.QLabel(self.widget)
+        self.case0x0_2 = QtWidgets.QLabel(self.widget)
         self.case0x0_2.setGeometry(QtCore.QRect(120, 10, 100, 100))
         font = QtGui.QFont()
         font.setPointSize(22)
@@ -62,7 +62,7 @@ class Ui_MainWindow(object):
         self.case0x0_2.setAlignment(QtCore.Qt.AlignCenter)
         self.case0x0_2.setWordWrap(False)
         self.case0x0_2.setObjectName(_fromUtf8("case0x0_2"))
-        self.case0x0_3 = QtGui.QLabel(self.widget)
+        self.case0x0_3 = QtWidgets.QLabel(self.widget)
         self.case0x0_3.setGeometry(QtCore.QRect(230, 10, 100, 100))
         font = QtGui.QFont()
         font.setPointSize(22)
@@ -75,7 +75,7 @@ class Ui_MainWindow(object):
         self.case0x0_3.setAlignment(QtCore.Qt.AlignCenter)
         self.case0x0_3.setWordWrap(False)
         self.case0x0_3.setObjectName(_fromUtf8("case0x0_3"))
-        self.case0x0_4 = QtGui.QLabel(self.widget)
+        self.case0x0_4 = QtWidgets.QLabel(self.widget)
         self.case0x0_4.setGeometry(QtCore.QRect(340, 10, 100, 100))
         font = QtGui.QFont()
         font.setPointSize(22)
@@ -88,7 +88,7 @@ class Ui_MainWindow(object):
         self.case0x0_4.setAlignment(QtCore.Qt.AlignCenter)
         self.case0x0_4.setWordWrap(False)
         self.case0x0_4.setObjectName(_fromUtf8("case0x0_4"))
-        self.case0x0_5 = QtGui.QLabel(self.widget)
+        self.case0x0_5 = QtWidgets.QLabel(self.widget)
         self.case0x0_5.setGeometry(QtCore.QRect(10, 120, 100, 100))
         font = QtGui.QFont()
         font.setPointSize(22)
@@ -101,7 +101,7 @@ class Ui_MainWindow(object):
         self.case0x0_5.setAlignment(QtCore.Qt.AlignCenter)
         self.case0x0_5.setWordWrap(False)
         self.case0x0_5.setObjectName(_fromUtf8("case0x0_5"))
-        self.case0x0_6 = QtGui.QLabel(self.widget)
+        self.case0x0_6 = QtWidgets.QLabel(self.widget)
         self.case0x0_6.setGeometry(QtCore.QRect(120, 120, 100, 100))
         font = QtGui.QFont()
         font.setPointSize(22)
@@ -114,7 +114,7 @@ class Ui_MainWindow(object):
         self.case0x0_6.setAlignment(QtCore.Qt.AlignCenter)
         self.case0x0_6.setWordWrap(False)
         self.case0x0_6.setObjectName(_fromUtf8("case0x0_6"))
-        self.case0x0_7 = QtGui.QLabel(self.widget)
+        self.case0x0_7 = QtWidgets.QLabel(self.widget)
         self.case0x0_7.setGeometry(QtCore.QRect(230, 120, 100, 100))
         font = QtGui.QFont()
         font.setPointSize(22)
@@ -127,7 +127,7 @@ class Ui_MainWindow(object):
         self.case0x0_7.setAlignment(QtCore.Qt.AlignCenter)
         self.case0x0_7.setWordWrap(False)
         self.case0x0_7.setObjectName(_fromUtf8("case0x0_7"))
-        self.case0x0_8 = QtGui.QLabel(self.widget)
+        self.case0x0_8 = QtWidgets.QLabel(self.widget)
         self.case0x0_8.setGeometry(QtCore.QRect(340, 120, 100, 100))
         font = QtGui.QFont()
         font.setPointSize(22)
@@ -140,7 +140,7 @@ class Ui_MainWindow(object):
         self.case0x0_8.setAlignment(QtCore.Qt.AlignCenter)
         self.case0x0_8.setWordWrap(False)
         self.case0x0_8.setObjectName(_fromUtf8("case0x0_8"))
-        self.case0x0_9 = QtGui.QLabel(self.widget)
+        self.case0x0_9 = QtWidgets.QLabel(self.widget)
         self.case0x0_9.setGeometry(QtCore.QRect(10, 230, 100, 100))
         font = QtGui.QFont()
         font.setPointSize(22)
@@ -153,7 +153,7 @@ class Ui_MainWindow(object):
         self.case0x0_9.setAlignment(QtCore.Qt.AlignCenter)
         self.case0x0_9.setWordWrap(False)
         self.case0x0_9.setObjectName(_fromUtf8("case0x0_9"))
-        self.case0x0_10 = QtGui.QLabel(self.widget)
+        self.case0x0_10 = QtWidgets.QLabel(self.widget)
         self.case0x0_10.setGeometry(QtCore.QRect(120, 230, 100, 100))
         font = QtGui.QFont()
         font.setPointSize(22)
@@ -166,7 +166,7 @@ class Ui_MainWindow(object):
         self.case0x0_10.setAlignment(QtCore.Qt.AlignCenter)
         self.case0x0_10.setWordWrap(False)
         self.case0x0_10.setObjectName(_fromUtf8("case0x0_10"))
-        self.case0x0_11 = QtGui.QLabel(self.widget)
+        self.case0x0_11 = QtWidgets.QLabel(self.widget)
         self.case0x0_11.setGeometry(QtCore.QRect(230, 230, 100, 100))
         font = QtGui.QFont()
         font.setPointSize(22)
@@ -179,7 +179,7 @@ class Ui_MainWindow(object):
         self.case0x0_11.setAlignment(QtCore.Qt.AlignCenter)
         self.case0x0_11.setWordWrap(False)
         self.case0x0_11.setObjectName(_fromUtf8("case0x0_11"))
-        self.case0x0_12 = QtGui.QLabel(self.widget)
+        self.case0x0_12 = QtWidgets.QLabel(self.widget)
         self.case0x0_12.setGeometry(QtCore.QRect(340, 230, 100, 100))
         font = QtGui.QFont()
         font.setPointSize(22)
@@ -192,7 +192,7 @@ class Ui_MainWindow(object):
         self.case0x0_12.setAlignment(QtCore.Qt.AlignCenter)
         self.case0x0_12.setWordWrap(False)
         self.case0x0_12.setObjectName(_fromUtf8("case0x0_12"))
-        self.case0x0_13 = QtGui.QLabel(self.widget)
+        self.case0x0_13 = QtWidgets.QLabel(self.widget)
         self.case0x0_13.setGeometry(QtCore.QRect(10, 340, 100, 100))
         font = QtGui.QFont()
         font.setPointSize(22)
@@ -205,7 +205,7 @@ class Ui_MainWindow(object):
         self.case0x0_13.setAlignment(QtCore.Qt.AlignCenter)
         self.case0x0_13.setWordWrap(False)
         self.case0x0_13.setObjectName(_fromUtf8("case0x0_13"))
-        self.case0x0_14 = QtGui.QLabel(self.widget)
+        self.case0x0_14 = QtWidgets.QLabel(self.widget)
         self.case0x0_14.setGeometry(QtCore.QRect(120, 340, 100, 100))
         font = QtGui.QFont()
         font.setPointSize(22)
@@ -218,7 +218,7 @@ class Ui_MainWindow(object):
         self.case0x0_14.setAlignment(QtCore.Qt.AlignCenter)
         self.case0x0_14.setWordWrap(False)
         self.case0x0_14.setObjectName(_fromUtf8("case0x0_14"))
-        self.case0x0_15 = QtGui.QLabel(self.widget)
+        self.case0x0_15 = QtWidgets.QLabel(self.widget)
         self.case0x0_15.setGeometry(QtCore.QRect(230, 340, 100, 100))
         font = QtGui.QFont()
         font.setPointSize(22)
@@ -231,7 +231,7 @@ class Ui_MainWindow(object):
         self.case0x0_15.setAlignment(QtCore.Qt.AlignCenter)
         self.case0x0_15.setWordWrap(False)
         self.case0x0_15.setObjectName(_fromUtf8("case0x0_15"))
-        self.case0x0_16 = QtGui.QLabel(self.widget)
+        self.case0x0_16 = QtWidgets.QLabel(self.widget)
         self.case0x0_16.setGeometry(QtCore.QRect(340, 340, 100, 100))
         font = QtGui.QFont()
         font.setPointSize(22)
@@ -244,8 +244,8 @@ class Ui_MainWindow(object):
         self.case0x0_16.setAlignment(QtCore.Qt.AlignCenter)
         self.case0x0_16.setWordWrap(False)
         self.case0x0_16.setObjectName(_fromUtf8("case0x0_16"))
-        self.score = QtGui.QLabel(self.background)
-        self.valScore = QtGui.QLabel(self.background)
+        self.score = QtWidgets.QLabel(self.background)
+        self.valScore = QtWidgets.QLabel(self.background)
         self.score.setGeometry(QtCore.QRect(10, 70, 71, 21))
         self.valScore.setGeometry(QtCore.QRect(80, 70, 45, 21))
         font = QtGui.QFont()
@@ -260,14 +260,14 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.valScore.setFont(font)
         MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtGui.QMenuBar(MainWindow)
+        self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 600, 21))
         self.menubar.setObjectName(_fromUtf8("menubar"))
-        #self.pushButton = QtGui.QPushButton(self.background)
+        #self.pushButton = QtWidgets.QPushButton(self.background)
         #self.pushButton.setGeometry(QtCore.QRect(480, 80, 41, 31))
         #self.pushButton.setObjectName(_fromUtf8("pushButton"))
         MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtGui.QStatusBar(MainWindow)
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName(_fromUtf8("statusbar"))
         MainWindow.setStatusBar(self.statusbar)
 

@@ -1,6 +1,6 @@
 from _2048 import Ui_MainWindow
-from PyQt4.QtGui import QMainWindow, QApplication, QFileDialog
-from PyQt4 import QtGui, QtCore
+from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog
+from PyQt5 import QtGui, QtWidgets, QtCore
 import os, sys
 from random import randint 
 import marshal
@@ -27,9 +27,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		if arg == "end":
 			# Popup de fin de partie
 			text = "Plus de déplacements possible réesayer ?"
-		self.dial = QtGui.QDialog(self)
+		self.dial = QtWidgets.QDialog(self)
 		self.dial.setGeometry(QtCore.QRect(430, 350, 500, 150))
-		label = QtGui.QLabel(self.dial)
+		label = QtWidgets.QLabel(self.dial)
 		label.setText(text)
 		font = QtGui.QFont()
 		font.setPointSize(12)
