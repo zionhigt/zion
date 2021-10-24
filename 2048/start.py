@@ -1,289 +1,206 @@
 from _2048 import Ui_MainWindow
-from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog
-from PyQt5 import QtGui, QtWidgets, QtCore
-import os, sys
-from random import randint 
+
+from PyQt5.QtWidgets import QMainWindow, QApplication
+from PyQt5 import  QtCore
+
+from numpy import array
+from random import randint
+
+import sys
 import marshal
 
+
 class MainWindow(QMainWindow, Ui_MainWindow):
-	def __init__(self, parent=None):
+    def __init__(self, parent=None):
 
-		QMainWindow.__init__(self, parent)
-		self.setupUi(self)
-		self.row_0 = [self.case0x0, self.case0x0_2, self.case0x0_3, self.case0x0_4]
-		self.row_1 = [self.case0x0_5, self.case0x0_6, self.case0x0_7, self.case0x0_8]
-		self.row_2 = [self.case0x0_9, self.case0x0_10, self.case0x0_11, self.case0x0_12]
-		self.row_3 = [self.case0x0_13, self.case0x0_14, self.case0x0_15, self.case0x0_16]
-		self.grille = [self.row_0, self.row_1, self.row_2, self.row_3]
-		self.grid = []
-		self.popup("tuto")
-		self.genGrid()
-		self.randNum()
-		self.Score()
+        QMainWindow.__init__(self, parent)
+        self.setupUi(self)
+        self.grid = self.generate_grid()
+        self.popup("tuto")
+        self.fill_random_case()
+        self.compute_score()
 
-	def popup(self, arg="end"):
-		if arg == "tuto":
-			text = ("Le deplacement de la grille ce fait avec les fleches du clavier.\nAstuces : 'R' retoune au dernier mouvement\n Bon jeu!!")
-		if arg == "end":
-			# Popup de fin de partie
-			text = "Plus de déplacements possible réesayer ?"
-		self.dial = QtWidgets.QDialog(self)
-		self.dial.setGeometry(QtCore.QRect(430, 350, 500, 150))
-		label = QtWidgets.QLabel(self.dial)
-		label.setText(text)
-		font = QtGui.QFont()
-		font.setPointSize(12)
-		font.setBold(True)
-		font.setWeight(75)
-		label.setFont(font)
-		self.dial.setWindowModality(True)
-		self.dial.show()
+    def popup(self, arg="end"):
+        if arg == "tuto":
+            text = ("Le déplacement de la grille se fait avec les flêches\ndu clavier.\nAstuce : entrez 'r' pour retouner au dernier mouvement\nBon jeu!!")
+        if arg == "end":
+            # Popup de fin de partie
+            text = "Plus de déplacements possible réesayer ?"
+        self.show_in_popup(text)
 
-	def genGrid(self, arg="defaut"):
-		# Genere un tableau de cases
-		# Chaques cases == (QWidget, tulpe(pos x, pos y), str(valeurCase)) 
-		y = 0
+    def fill_random_case(self):
+        # Une case libre au hasar vaut 2
+        search = True
+        over = self.over()
 
-		for i in self.grille:
-			x = 0
-			row = []
-			for j in i:
-				case = (j, (y, x), j.text())
-				row.append(case)
-				x+=1
-			self.grid.append(row)
-			y+=1
+        while search and over:
+            rand_row = self.grid[randint(0, 3)]
+            case = rand_row[randint(0, 3)]
+            case = case[0]
+            if self.over_one(case) == True:
+                case.setText('2')
+                case.setStyleSheet(
+                    "background-color:{};".format(self.hexa("2")))
+                search = False
+            else:
+                search = True
 
-	def randNum(self):
-		# Une case libre au hasar vaut 2
-		search = True
-		over = self.over()
+        if not over:
+            print('c\'est plein')
 
-		while search and over:
-			y = self.grid[randint(0,3)]
-			case = y[randint(0,3)]
-			case = case[0]
-			if self.overOne(case) == True:
-				case.setText('2')
-				case.setStyleSheet("background-color:{};".format(self.hexa("2")))
-				search = False
-			else:
-				search = True
+            self.popup()
 
-		if not over:
-			print('c\'est plein')
-			
-			self.popup()
-	def over(self):
-		# Verifie si au moin une case est vide
-		# vide=True,  plein=False
-		over = False
+    def over(self):
+        # Verifie si au moin une case est vide
+        # vide=True,  plein=False
+        over_list = [j for i in self.grid for j in i if self.over_one(j[0])]
+        print(over_list)
+        return bool(len(over_list))
 
-		for i in self.grid:
-				for j in i:
-					if j[0].text() == "":
-						over = True
-						print('encor de la place')
-						break
-				if over:
-					break
+    def over_one(self, case):
+        # verifie case precise
+        # vide=True, plein=False
+        return case.text() == ""
 
-		return over
+    def cut(self, case_list):
+        return [[case for case in row if case != ''] for row in case_list]
 
-	def overOne(self, case):
-		# verifie case precise 
-		# vide=True, plein=False
-		over = False 
+    def sumation_row(self, vals, axe=2):
+        sliced_values = self.cut(vals)
+        for i in sliced_values:
+            compteur = range(len(i)-1)
+            if axe == 1:
+                compteur = reversed(range(len(i)-1))
 
-		if case.text() == "":
-			over = True
+            for j in compteur:
+                if j < len(i):
+                    if i[j] == i[j+1]:
+                        i[j+1] = int(i[j])*2
+                        i[j] = ''
 
-		return over
+        return self.uncut(self.cut(sliced_values), axe)
 
-	def cut(self, lst):
-		# suprime les valeur NULL
-		lstGen = []
+    def uncut(self, lst, axe=1):
+        # reconstrui tableau avec valeur NULL
+        for i in lst:
+            a = 4 - len(i)
+            if axe == 1:
+                for j in range(a):
+                    i.insert(0, '')
+            if axe == 2:
 
-		for i in lst:
-			lstRow = []
-			for j in i:
-				if j != '':
-					lstRow.append(j)
-			lstGen.append(lstRow)
-		return lstGen
+                for j in range(a):
+                    i.append('')
+        return lst
 
-	def uncut(self, lst, axe=1):
-		# reconstrui tableau avec valeur NULL
-		for i in lst:
-			a = 4 - len(i)
-			if axe == 1:
-				for j in range(a):
-					i.insert(0, '')
-			if axe == 2:
+    def hexa(self, val):
+        # retourne couleur/valeur de case
+        colors = {
+            "0": "#ffffde",
+            "2": "#fad994",
+            "4": "#faa94c",
+            "8": "#ff6762",
+            "16": "#18ff00",
+            "32": "#e2ff00",
+            "64": "#7382ff",
+            "128": "#db823c",
+            "256": "#ff0000",
+            "512": "#dbb8b7",
+            "1024": "#db00b7",
+            "2048": "#2600b3"
+        }
 
-				for j in range(a):
-					i.append('')
-		return lst
+        if val == "":
+            val = "0"
 
-	def hexa(self, val):
-		# retourne couleur/valeur de case
-		couleur = [
-			("", "#ffffde"),
-			("2", "#fad994"),
-			("4", "#faa94c"),
-			("8", "#ff6762"),
-			("16", "#18ff00"),
-			("32", "#e2ff00"),
-			("64", "#7382ff"), 
-			("128", "#db823c"),
-			("256","#ff0000"),
-			("512","#dbb8b7"),
-			("1024","#db00b7"),
-			("2048","#2600b3")]
-		hexa = ""
+        hexa = colors[val]
+        return hexa
 
-		for i in couleur:
-			if val == i[0]:
-				hexa = i[1]
-				break
-		return hexa
+    def pickles_jar(self, lst=None, arg='out'):
+        # Enregistre et distribu etat du tableau
+        if arg == 'in':
+            array = marshal.dump(lst, open('etat.sav', 'wb'))
 
-	def potDeCornichons(self, lst=None, arg='out'):#potDeCornichon definie avec pickle mais incompatible 
-		# Enregistre et distribu etat du tableau
-		if arg == 'in':
-			array = marshal.dump(lst, open('etat.sav', 'wb'))
+        if arg == 'out':
+            array = marshal.load(open('etat.sav', 'rb'))
+            return array
 
-		if arg == 'out':
-			array = marshal.load(open('etat.sav', 'rb'))
-			return array
+    def get_grid_values(self):
+        return [[case[0].text() for case in row] for row in self.grid]
 
-	""" Déplacements du tableau"""
-	def move(self, arg):
-		array = self.lstIO()
+    def move(self, arg):
+        array = self.get_grid_values()
 
-		if arg == "right":
-			val = self.cut(array)
-			val = self.compte(val, 1)
-			val = self.uncut(val, 1)
+        if arg in ["right", "left"]:
+            axis = 1
+            if arg == "left":
+                axis = 2
+            val = self.sumation_row(array, axis)
 
-		if arg == "left":
-			val = self.cut(array)
-			val = self.compte(val, 2)
-			val = self.uncut(val, 2)
+        if arg in ["down", "up"]:
+            val = self.row_to_col(array)
+            axis = 1
+            if arg == "up":
+                axis = 2
+            val = self.sumation_row(val, axis)
+            val = self.row_to_col(val)
 
-		if arg == 'down':
-			val = self.rowToCol(array)
-			val = self.cut(val)
-			val = self.compte(val, 1)
-			val = self.uncut(val, 1)
-			val = self.rowToCol(val)
+        if arg == "return":
+            val = self.pickles_jar()
 
-		if arg == "up":
-			val = self.rowToCol(array)
-			val = self.cut(val)
-			val = self.compte(val, 2)
-			val = self.uncut(val, 2)
-			val = self.rowToCol(val)
+        for i in range(len(val)):
+            for j in range(len(val[i])):
+                self.set_case_style(self.grid[i][j], val[i][j])
+                self.compute_score()
 
-		if arg == "return":
-			val = self.potDeCornichons()
+        if arg != 'return':
+            self.pickles_jar(array, 'in')
+            if val != self.pickles_jar():
+                self.fill_random_case()
+            self.compute_score()
 
-		for i in range(len(val)):
-			rowCase = self.grid[i]
-			rowVal = val[i]
-			for j in range(len(rowVal)):
-				case = rowCase[j]
-				count = rowVal[j]
-				hexa = self.hexa(str(count))
-				case[0].setStyleSheet("background-color:{};".format(hexa))
-				case[0].setText(str(count))
-				self.Score()
+    def set_case_style(self, case, count):
+        hexa = self.hexa(str(count))
+        case[0].setStyleSheet("background-color:{};".format(hexa))
+        case[0].setText(str(count))
 
-		if arg != 'return':
-			self.potDeCornichons(array, 'in')
-			if val != self.potDeCornichons():
-				self.randNum()
-			self.Score()
+    def compute_score(self):	
+        score = sum([
+			int(case) for row in self.get_grid_values()
+			for case in row if case != ""
+			])
+        self.valScore.setText(str(score))
 
-	def Score(self, plus=""):
-		score = 0
+    def row_to_col(self, lst):
+        # Transforme listes de rangées en liste de colones
+        np_list = array([array(row) for row in lst])
+        return np_list.transpose().tolist()
 
-		for i in self.grid:
-			for j in i:
-				if j[0].text() != "":
-					plus = int(j[0].text())
-					score = score + plus
+    def keyPressEvent(self, event):
 
-		self.valScore.setText(str(score))
+        key = event.key()
 
-	def compte(self, val, axe=2):
+        if key == QtCore.Qt.Key_Up:
+            self.move("up")
 
-		for i in val:
-			if axe == 2:
-				compteur = range(len(i)-1)
-			if axe == 1 : 
-				compteur = reversed(range(len(i)-1))
+        if key == QtCore.Qt.Key_Down:
+            self.move("down")
 
-			for j in compteur:
-				if j < len(i):
-					if i[j] == i[j+1]:
-						i[j+1]=int(i[j])*2
-						i[j] = ''
+        if key == QtCore.Qt.Key_Left:
+            self.move("left")
 
-		val = self.cut(val)
-		return val
+        if key == QtCore.Qt.Key_Right:
+            self.move("right")
 
-	def lstIO(self):
-		# retoune tableau de valeur
-		var = self.grid
-		lstO = []
+        if event.key() == QtCore.Qt.Key_R:
+            self.move("return")
 
-		for i in var:
-			lstRow = []
-
-			for j in i:
-				lstRow.append(j[0].text())
-			lstO.append(lstRow)
-
-		return lstO
-
-	def rowToCol(self, lst):
-		# Transforme listes de rangées en liste de colones
-		lstGen = []
-
-		for i in range(4):
-			lstCol = []
-
-			for j in lst:
-				lstCol.append(j[i])
-			lstGen.append(lstCol)
-
-		return lstGen
-
-	def keyPressEvent(self, event):
-
-		key = event.key()
-
-		if key== QtCore.Qt.Key_Up:
-			self.move("up")
-
-		if key== QtCore.Qt.Key_Down:
-			self.move("down")
-
-		if key== QtCore.Qt.Key_Left:
-			self.move("left")
-
-		if key== QtCore.Qt.Key_Right:
-			self.move("right")
-
-		if event.key() == QtCore.Qt.Key_R:
-			self.move("return")
 
 if __name__ == '__main__':
-	
-	import sys 
 
-	app = QApplication(sys.argv)
-	uiMain = MainWindow()
-	uiMain.show()
-	sys.exit(app.exec_())
+    import sys
+
+    app = QApplication(sys.argv)
+    uiMain = MainWindow()
+    uiMain.show()
+    sys.exit(app.exec_())
